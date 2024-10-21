@@ -46,19 +46,99 @@ sls deploy -f createAuction -v
 3. sls deploy -v - serverless deploys only the changes
 
 # Lecture 34: Placing a bid
-1. 
+1. New end point so adding in serverless file
+2. PATCH - not creating a new record/resource, it updates the bid of an auction
+3. Create a new Auction - highest bid is zero
+4. Update bid end point with PATCH
 
-# Lecture : 
+# Lecture 35: Validation placing a bid
+1. Calling function getAuctionByID from another JS file. Is this the right approach?
+
+# Lecture 36: Using scheduled events to process our auctions - Part 3
+1. Schedule using AWS EventBridge
+2. Create a new lambda in serverless file
+3. New Rule in EventBridge with target of Lambda function with event schedule as rate
+```
+sls logs -f processAuctions -t/ --startTime 1m
+sls invoke -f processAuctions -l
+```
+# Lecture 37: Creating Global secondary index
+1. Identify all auctions with status OPEN and end date in the past. Partion key of status and sort key of end date
+2. Change AuctionsTable.yml file
+
+# Lecture 38: Identifying ending auctions
+1. Create getEndedAuctions in lib folder
+2. Import the function in
+3. Change AuctionsTable.yml file
+
+# Lecture 39: Closing Auctions
+1. lib/closeAuction.js
+2. export function closeAuction
+3. Call from processAuctions.js
+
+# Lecture 40: Validation: Bidding on closed auctions
+1. Add validation
+
+# Lecture 41: Getting auctions filter by status
+1. Change to DDB query and change code to accept status as query parameter.
+2. The status needs validation, no status or wrong status name
+
+# Lecture 43: JSON schema validation
+1. Create getAuctionSchema.js
+2. const schema = {}. export default schema
+3. Define status can accept defined values and assign default value
+```
+npm install @middy/validator
+```
+4. Add extra validator on top of common validators
 
 
-# Lecture : 
+# Lecture 47: Auth0 flow
+1. User authenticates with Auth0
+2. Auth0 sends back JWT
+3. createAuction handler serverless authorizer: auth
+4. Any further request would include Authorization header
+5. authorizer would verify it first
+6. Send information in claims
 
-# Lecture : 
+# Lecture 49: Creating an Auth0 app
+1. Sign up to Auth0 with email and password
+2. Create a SPA apps
+3. Settings - allowed callback url
+4. Advanced settings - Grant types - password
+
+# Lecture 50: Getting test token
+1. Create a test user on Auth0
+2. curl auth0 to get auth JWT
+```
+curl --location --request POST "https://auth_domain/oauth/token" \
+--header 'Content-Type: application/x-www-form-urlencoded" \
+--data-urlencode 'client_id=' \
+--data-urlencode 'username=' \
+--data-urlencode 'password=' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'scope=openid'
+```
+5. { access_token, id_token, scope, expires_in, token_type
+6. Portman AUTH_TOKEN = id_token
+
+# Lecture 51: Deploying Auth service
 
 
-# Lecture : 
+# Lecture :
 
-# Lecture : 
 
+# Lecture :
+
+# Lecture :
+
+
+# Lecture :
+
+
+# Lecture :
+
+
+# Lecture :
 
 # Lecture : 
